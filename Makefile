@@ -7,16 +7,18 @@ SRC_FILES := $(wildcard ./src/*.cpp)
 CXX := clang++
 CXXFLAGS := -std=c++20 -Wall -Wextra -I/Users/kunaltiwari/cynlr/include/
 
+default: run
+
 # Default build
 build:
-	$(CXX) $(CXXFLAGS) $(SRC_FILES) -o $(BUILD_DIR)/$(APP_NAME)
+	@$(CXX) $(CXXFLAGS) $(SRC_FILES) -o $(BUILD_DIR)/$(APP_NAME)
 
 # Debug build
 debug:
-	$(CXX) $(CXXFLAGS) -g -O0 $(SRC_FILES) -o $(BUILD_DIR)/$(APP_NAME)
+	@$(CXX) $(CXXFLAGS) -g -O0 $(SRC_FILES) -o $(BUILD_DIR)/$(APP_NAME)
 
 # Run the application
 run: build
-	./$(BUILD_DIR)/$(APP_NAME)
+	@./$(BUILD_DIR)/$(APP_NAME)
 
 .PHONY: build debug run
