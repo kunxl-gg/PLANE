@@ -1,10 +1,10 @@
+#ifndef RING_BUFFER_H
+#define RING_BUFFER_H
+
 #include <cstddef>
 #include <cstdint>
 #include <atomic>
 #include <vector>
-
-#ifndef RING_BUFFER_H
-#define RING_BUFFER_H
 
 class RingBuffer {
 /**
@@ -32,11 +32,11 @@ protected:
 	void copy_write_block();
 	void release_write_block();
 private:
+	alignas(64) uint8_t _buffer[10];
 	alignas(64) std::atomic<size_t> _rptr;
 	alignas(64) std::atomic<size_t> _wptr;
 	alignas(64) std::atomic<size_t> _size;
 	alignas(64) std::atomic<size_t> _free;
-	alignas(64) std::vector<uint8_t> _buffer;
 };
 
 #endif  // RING_BUFFER_H

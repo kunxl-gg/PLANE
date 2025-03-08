@@ -1,3 +1,6 @@
+#ifndef FILTERING_BLOCK_H
+#define FILTERING_BLOCK_H
+
 #include <cstdint>
 
 #include "include/iprocess_block.hpp"
@@ -18,3 +21,5 @@ private:
 	RingBuffer *_inputBuffer;
 	std::vector<uint8_t> _outputBuffer;
 };
+
+#endif // FILTERING_BLOCK_H

@@ -1,3 +1,6 @@
+#ifndef IPROCESS_BLOCK_H
+#define IPROCESS_BLOCK_H
+
 /**
  * An interface to implement each block in the pipeline.
  * Any new block that needs to be added to the pipeline needs to inherit this block
@@ -14,3 +17,5 @@ public:
 	 */
 	virtual void execute() = 0;
 };
+
+#endif // IPROCESS_BLOCK_H
