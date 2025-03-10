@@ -38,5 +38,5 @@ make -j$(nproc) # Use "cmake --build ." on Windows
 ```
 
 ## Contributing
-1. Follow the [code formatting guidelines](docs/CODE_FORMATTING.md).
-2. Review the [architecture document](docs/ARCHITECURE.md) for more insight into the implementation.
+1. Follow the [code formatting guidelines](https://github.com/kunxl-gg/PLANE/blob/main/docs/CONTRIBUTING.md).
+2. Review the [architecture document](https://github.com/kunxl-gg/PLANE/blob/main/docs/ARCHITECTURE.md) for more insight into the implementation.
