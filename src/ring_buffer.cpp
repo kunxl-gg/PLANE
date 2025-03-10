@@ -1,5 +1,7 @@
 #include <atomic>
 #include <cstddef>
+#include <iostream>
+#include <ostream>
 
 #include "include/ring_buffer.hpp"
 
@@ -59,3 +61,8 @@ void RingBuffer::increment() noexcept {
     _rptr.store(rptr, std::memory_order_release);
 }
 
+void RingBuffer::print() noexcept {
+	for (int i = 0; i < 10; i++) {
+		std::cout << _buffer[i] << " ";
+	} std::cout << std::endl;
+}

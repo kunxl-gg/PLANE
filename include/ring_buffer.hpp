@@ -25,6 +25,8 @@ public:
 
 	bool read() noexcept;
 	bool write(const uint8_t &a, const uint8_t &b) noexcept;
+
+	void print() noexcept;
 private:
 	alignas(64) std::atomic<size_t> _rptr;
 	alignas(64) std::atomic<size_t> _wptr;
