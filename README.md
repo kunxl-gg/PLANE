@@ -20,6 +20,16 @@ make -j$(nproc) # Use "cmake --build ." on Windows
 ```sh
 ./pipeline_app
 ```
+Make sure to have **`config.txt`** and **`data.csv`** in the same directory, as the application requires them for configuration and input data.
+
+### Configuration File Format (`config.txt`)
+The `config.txt` file should follow this pattern:
+
+```
+<number_of_samples>
+<number_of_iterations>
+<weight_vector_values (space-separated)>
+```
 
 ## Code Structure
 ```
