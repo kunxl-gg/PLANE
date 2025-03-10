@@ -29,6 +29,7 @@ make -j$(nproc) # Use "cmake --build ." on Windows
 ```
 📂 project_root
  ├📂 include        # Header files
+ ├📂 docs           # Documentation files
  ├📂 src            # Source files
  ├📂 build          # Compiled binaries
  ├ CMakeLists.txt    # Build configuration
@@ -37,5 +38,5 @@ make -j$(nproc) # Use "cmake --build ." on Windows
 ```
 
 ## Contributing
-1. Follow the [code formatting guidelines](CODE_FORMATTING.md).
-2. Review the [architecture document](ARCHITECURE.md) for more insight into the implementation.
+1. Follow the [code formatting guidelines](docs/CODE_FORMATTING.md).
+2. Review the [architecture document](docs/ARCHITECURE.md) for more insight into the implementation.
