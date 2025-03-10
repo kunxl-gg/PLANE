@@ -23,13 +23,13 @@ make -j$(nproc) # Use "cmake --build ." on Windows
 
 ## Code Structure
 ```
-📂 project_root
- ├📂 docs           # Documentation files
- ├📂 include        # Header files
- ├📂 src            # Source files
- ├📂 build          # Compiled binaries
- ├ CMakeLists.txt    # Build configuration
- ├ README.md         # Project documentation
+project_root
+├── docs           # Documentation files
+├── include        # Header files
+├── src            # Source files
+├── build          # Compiled binaries
+├── CMakeLists.txt # Build configuration
+└── README.md      # Project documentation
 ```
 
 ## Contributing
