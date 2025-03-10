@@ -9,7 +9,7 @@
 class FilteringBlock : public IProcessBlock {
 public:
 	FilteringBlock(uint8_t threshold, float weights[9], RingBuffer &buffer);
-	~FilteringBlock();
+	virtual ~FilteringBlock() = default;
 
 	uint8_t applySIMDFilter(uint8_t input[9]);
 

@@ -10,6 +10,7 @@
 class DataGenerationBlock : public IProcessBlock {
 public:
 	DataGenerationBlock(RingBuffer &buffer, std::string csvPath);
+	virtual ~DataGenerationBlock() = default;
 
 	void readCSV();
 	void generateRandomNumbers();
