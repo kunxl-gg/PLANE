@@ -1,10 +1,6 @@
-## README.md
+# Parallel Line Scanner Architecture for Near real-time Execution
 
-# Pipeline Processing System
-
-This project implements a **multi-threaded pipeline** that:
-1. Reads and processes data from a CSV file.
-3. Applies a filtering algorithm to the data.
+This project implements a **multi-threaded lock free ring buffer** for real-time line scanning that
 
 ## Installation
 ### Prerequisites
@@ -28,15 +24,14 @@ make -j$(nproc) # Use "cmake --build ." on Windows
 ## Code Structure
 ```
 📂 project_root
- ├📂 include        # Header files
  ├📂 docs           # Documentation files
+ ├📂 include        # Header files
  ├📂 src            # Source files
  ├📂 build          # Compiled binaries
  ├ CMakeLists.txt    # Build configuration
  ├ README.md         # Project documentation
- ├ CODE_FORMATTING.md# Coding style guide
 ```
 
 ## Contributing
 1. Follow the [code formatting guidelines](https://github.com/kunxl-gg/PLANE/blob/main/docs/CONTRIBUTING.md).
-2. Review the [architecture document](https://github.com/kunxl-gg/PLANE/blob/main/docs/ARCHITECTURE.md) for more insight into the implementation.
+2. Review the [architecture document](https://github.com/kunxl-gg/PLANE/blob/main/docs/ARCHITECTURE.md).
