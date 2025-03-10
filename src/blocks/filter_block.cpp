@@ -34,7 +34,7 @@ uint8_t FilteringBlock::applySIMDFilter(uint8_t input[9]) {
 void FilteringBlock::execute() {
 	// Read the input from the ring buffer
 	uint8_t input[10];
-	if (!_inputBuffer->read(input)) return;
+	if (!_inputBuffer->read()) return;
 
 	// Apply SIMD filering and write to outputBuffer
 	auto result = applySIMDFilter(input);
