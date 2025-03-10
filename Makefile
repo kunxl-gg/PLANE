@@ -1,13 +1,13 @@
 # Application settings
 APP_NAME := cynlr
 BUILD_DIR := ./build
-SRC_FILES := $(wildcard ./src/*.cpp)
+SRC_FILES := $(wildcard ./src/**/*.cpp) $(wildcard ./src/*.cpp)
 
 # Compiler and flags
 CXX := clang++
-CXXFLAGS := -std=c++20 -Wall -Wextra -I/Users/kunaltiwari/cynlr/include/
+CXXFLAGS := -std=c++20 -Wall -Wextra -I/Users/kunaltiwari/cynlr
 
-default: run
+default: debug run
 
 # Default build
 build:
@@ -15,10 +15,10 @@ build:
 
 # Debug build
 debug:
-	@$(CXX) $(CXXFLAGS) -g -O0 $(SRC_FILES) -o $(BUILD_DIR)/$(APP_NAME)
+	$(CXX) $(CXXFLAGS) -g -O0 -D_DEBUG $(SRC_FILES) -o $(BUILD_DIR)/$(APP_NAME)
 
 # Run the application
-run: build
+run:
 	@./$(BUILD_DIR)/$(APP_NAME)
 
 .PHONY: build debug run
