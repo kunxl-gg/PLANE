@@ -14,14 +14,13 @@ class RingBuffer {
  */
 public:
 	// Constructors and Destructors
-	RingBuffer() = default;
 	RingBuffer(const size_t &length);
 	~RingBuffer() = default;
 
 	size_t capacity() const;
 	size_t normalise(size_t ptr) noexcept;
 
-	void read() noexcept;
+	bool read() noexcept;
 	bool write(const uint8_t &a, const uint8_t &b) noexcept;
 protected:
 	size_t aquire_read_block();
@@ -32,11 +31,11 @@ protected:
 	void copy_write_block();
 	void release_write_block();
 private:
-	alignas(64) uint8_t _buffer[10];
 	alignas(64) std::atomic<size_t> _rptr;
 	alignas(64) std::atomic<size_t> _wptr;
 	alignas(64) std::atomic<size_t> _size;
 	alignas(64) std::atomic<size_t> _free;
+	alignas(64) std::vector<int> _buffer;
 };
 
 #endif  // RING_BUFFER_H

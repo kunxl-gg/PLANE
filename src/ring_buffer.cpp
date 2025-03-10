@@ -16,14 +16,14 @@ size_t RingBuffer::normalise(size_t ptr) noexcept {
 	return ptr < capacity() ? ptr : ptr - capacity();
 }
 
-void RingBuffer::read() noexcept {
+bool RingBuffer::read() noexcept {
 	size_t r = _rptr.load();
 	size_t w = _wptr.load();
 
 	if (w != r)
-		return;
+		return false;
 
-
+	else return true;
 }
 
 bool RingBuffer::write(const uint8_t &a, const uint8_t &b) noexcept {
