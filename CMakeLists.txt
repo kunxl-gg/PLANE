@@ -20,13 +20,13 @@ find_package(Threads REQUIRED)
 add_executable(PipelineProject
     src/main.cpp
     src/pipeline.cpp
-    src/data_generation_block.cpp
-    src/filtering_block.cpp
+    src/blocks/data_generation_block.cpp
+    src/blocks/filtering_block.cpp
     src/ring_buffer.cpp
 )
 
 # Include directories
-target_include_directories(PipelineProject PRIVATE include)
+target_include_directories(PipelineProject PRIVATE ${CMAKE_SOURCE_DIR})
 
 # Link necessary libraries
 target_link_libraries(PipelineProject PRIVATE Threads::Threads)

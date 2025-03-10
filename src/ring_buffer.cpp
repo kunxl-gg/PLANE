@@ -16,25 +16,37 @@ size_t RingBuffer::normalise(size_t ptr) noexcept {
 	return ptr < capacity() ? ptr : ptr - capacity();
 }
 
-bool RingBuffer::read() noexcept {
-	size_t r = _rptr.load();
-	size_t w = _wptr.load();
+uint8_t RingBuffer::at(size_t index) noexcept {
+	return _buffer[index];
+}
 
-	if (w != r)
+bool RingBuffer::read() noexcept {
+	size_t wptr = _wptr.load();
+	size_t rptr = _rptr.load();
+
+	if (wptr != rptr)
 		return false;
 
 	else return true;
 }
 
-bool RingBuffer::write(const uint8_t &a, const uint8_t &b) noexcept {
-	size_t w = _wptr.load();
-	size_t r = _rptr.load();
+void RingBuffer::increment() noexcept {
+	size_t rptr = _rptr.load(std::memory_order_relaxed);
+	rptr = normalise(rptr + 2);
 
-	if (w == r)
+    _rptr.store(rptr, std::memory_order_release);
+}
+
+bool RingBuffer::write(const uint8_t &a, const uint8_t &b) noexcept {
+	size_t wptr = _wptr.load();
+	size_t rptr = _rptr.load();
+
+	if (wptr == rptr)
 		return false;
 
-	_buffer[w] = a;
-	_buffer[normalise(w + 1)] = b;
-	_wptr.store(normalise(w + 2));
+	_buffer[wptr] = a;
+	_buffer[normalise(wptr + 1)] = b;
+
+	_wptr.store(normalise(wptr + 2));
 	return true;
 }

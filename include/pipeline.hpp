@@ -4,7 +4,7 @@
 #include <thread>
 #include <atomic>
 
-#include "include/data_generation.hpp"
+#include "include/data_generation_block.hpp"
 #include "include/filtering_block.hpp"
 #include "include/ring_buffer.hpp"
 
@@ -15,6 +15,7 @@ public:
 
 	void start();
 	void stop();
+	bool should_run();
 
 private:
 	std::atomic<bool> _running;

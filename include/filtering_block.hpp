@@ -2,6 +2,7 @@
 #define FILTERING_BLOCK_H
 
 #include <cstdint>
+#include <vector>
 
 #include "include/iprocess_block.hpp"
 #include "include/ring_buffer.hpp"
@@ -11,7 +12,7 @@ public:
 	FilteringBlock(uint8_t threshold, float weights[9], RingBuffer &buffer);
 	virtual ~FilteringBlock() = default;
 
-	uint8_t applySIMDFilter(uint8_t input[9]);
+	std::pair<uint8_t, uint8_t> applySIMDFilter();
 
 	void execute() override;
 private:

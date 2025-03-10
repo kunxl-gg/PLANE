@@ -4,15 +4,15 @@
 #include <vector>
 #include <iostream>
 #include <random>
+#include <thread>
 
-#include "include/data_generation.hpp"
+#include "include/data_generation_block.hpp"
 
 DataGenerationBlock::DataGenerationBlock(RingBuffer &buffer, std::string csvPath) {
 	_buffer = &buffer;
-
-#ifndef _DEBUG
 	_csvPath = csvPath;
-#endif
+
+	std::cout << _buffer << ": [DataGenerationBlock] buffer \n";
 }
 
 void DataGenerationBlock::readCSV() {
@@ -36,10 +36,6 @@ void DataGenerationBlock::readCSV() {
 		for (size_t i = 0; i + 1 < values.size(); i += 2) {
 			_buffer->write(values[i], values[i + 1]);
 		}
-
-		if (values.size() % 2 != 0) {
-			std::cerr << "Warning: Odd number of elements in line, last value ignored: " << values.back() << std::endl;
-		}
 	}
 }
 
@@ -52,13 +48,18 @@ void DataGenerationBlock::generateRandomNumbers() {
 	uint8_t a = dist(gen);
 	uint8_t b = dist(gen);
 
-	_buffer->write(a, b);
+	 _buffer->write(a, b);
 }
 
 void DataGenerationBlock::execute() {
+#ifdef _DEBUG_LOG
+	std::cout << "[DataGenerationBlock] Running on Thread ID: " << std::this_thread::get_id() << "\n";
+#endif
+
 #ifdef _DEBUG
 	generateRandomNumbers();
 #else
 	readCSV();
 #endif
 }
+
