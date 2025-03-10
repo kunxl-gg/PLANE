@@ -29,7 +29,6 @@ private:
 	alignas(64) std::atomic<size_t> _rptr;
 	alignas(64) std::atomic<size_t> _wptr;
 	alignas(64) std::atomic<size_t> _size;
-	alignas(64) std::atomic<size_t> _free;
 	alignas(64) std::vector<int> _buffer;
 };
 
