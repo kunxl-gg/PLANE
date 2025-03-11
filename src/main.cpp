@@ -3,7 +3,7 @@
 
 #include "include/pipeline.hpp"
 
-bool readConfig(std::string filename, unsigned &threshold, float weights[9], int &time) {
+bool readConfig(std::string filename, unsigned &threshold, float weights[9], int &time, int &timePeriod) {
 	std::fstream file(filename);
 	if (!file) {
 		std::cerr << "Error in opening file: " << filename << "\n";
@@ -22,6 +22,12 @@ bool readConfig(std::string filename, unsigned &threshold, float weights[9], int
 		return false;
 	}
 
+	file >> timePeriod;
+	if (file.fail()) {
+		std::cerr << "Error in reading time period\n";
+		return false;
+	}
+
 	float value;
 	for (int i = 0; i < 9; i++) {
 		if (!(file >> value)) {
@@ -37,10 +43,11 @@ bool readConfig(std::string filename, unsigned &threshold, float weights[9], int
 
 int main() {
 	int time;
+	int timePeriod;
 	float weights[9];
 	unsigned threshold;
 
-	if (!readConfig("config.txt", threshold, weights, time))
+	if (!readConfig("config.txt", threshold, weights, time, timePeriod))
 		return 1;
 
 	printf("Time: %d Threshold: %u \n", time, threshold);
@@ -54,7 +61,7 @@ int main() {
 #ifdef _DEBUG
 	printf("%s ", "Running in _DEBUG mode\n");
 	pipeline.start();
-	std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	std::this_thread::sleep_for(std::chrono::milliseconds(time));
 	pipeline.stop();
 #else
 	printf("%s ", "Running in _RELEASE mode \n");

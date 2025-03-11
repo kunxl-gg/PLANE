@@ -17,7 +17,7 @@ endif()
 find_package(Threads REQUIRED)
 
 # Add the executable
-add_executable(PipelineProject
+add_executable(cynlr
     src/main.cpp
     src/pipeline.cpp
     src/blocks/data_generation_block.cpp
@@ -26,12 +26,13 @@ add_executable(PipelineProject
 )
 
 # Include directories
-target_include_directories(PipelineProject PRIVATE ${CMAKE_SOURCE_DIR})
+target_include_directories(cynlr PRIVATE ${CMAKE_SOURCE_DIR})
 
 # Link necessary libraries
-target_link_libraries(PipelineProject PRIVATE Threads::Threads)
+target_link_libraries(cynlr PRIVATE Threads::Threads)
+
+# Define _DEBUG in Debug mode
+target_compile_definitions(cynlr PRIVATE $<$<CONFIG:Debug>:_DEBUG>)
 
 # Enable optimizations for Release mode
-if (CMAKE_BUILD_TYPE STREQUAL "Release")
-    target_compile_options(PipelineProject PRIVATE -O3)
-endif()
+target_compile_options(cynlr PRIVATE $<$<CONFIG:Release>:-O3>)

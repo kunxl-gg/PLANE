@@ -37,7 +37,7 @@ void Pipeline::stop() {
 }
 
 bool Pipeline::should_run() {
-	return false;
+	return _dataBlock.hasMoreData();
 }
 
 void Pipeline::runDataGeneration() {

@@ -20,6 +20,10 @@ DataGenerationBlock::DataGenerationBlock(RingBuffer &buffer, std::string csvPath
 	}
 }
 
+bool DataGenerationBlock::hasMoreData() {
+	return !_file.eof();
+}
+
 std::pair<uint8_t, uint8_t> DataGenerationBlock::readCSV() {
 	if (!_file.is_open()) {
 		std::cerr << "Error: File not open." << std::endl;

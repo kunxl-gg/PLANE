@@ -12,6 +12,7 @@ public:
 	DataGenerationBlock(RingBuffer &buffer, std::string csvPath);
 	virtual ~DataGenerationBlock() = default;
 
+	bool hasMoreData();
 	std::pair<uint8_t, uint8_t> readCSV();
 	std::pair<uint8_t, uint8_t> generateRandomNumbers();
 
