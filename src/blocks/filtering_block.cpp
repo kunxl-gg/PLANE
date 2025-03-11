@@ -29,8 +29,30 @@ std::pair<uint8_t, uint8_t> FilteringBlock::applySIMDFilter() {
 	return std::make_pair(a, b);
 }
 
+void FilteringBlock::flush() {
+	FILE *file = fopen("output.txt", "w");
+	if (!file) {
+		perror("Error opening file");
+		return;
+	}
+
+	for (size_t i = 0; i < _outputBuffer.size(); i += 10) {
+		for (int j = 0; j < 10; j++) {
+			uint8_t value = _outputBuffer[i + j] >= _threshold ? 1 : 0;
+			fprintf(file, "%d ", value);
+		}
+		fprintf(file, "\n");
+	}
+
+	fclose(file);
+}
+
 void FilteringBlock::execute() {
+#ifdef _DEBUG_LOG
 	std::cout << "[FilteringBlock] Running on Thread ID: " << std::this_thread::get_id() << "\n";
+#endif
+
+	auto start = std::chrono::high_resolution_clock::now();
 
 	// Read the input from the ring buffer
 	if (!_inputBuffer->read())
@@ -42,4 +64,12 @@ void FilteringBlock::execute() {
 	_outputBuffer.push_back(result.second);
 
 	_inputBuffer->increment();
+
+	auto end = std::chrono::high_resolution_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+
+	// Ensure execution time is at least 500 ns
+	if (elapsed.count() < 500) {
+		std::this_thread::sleep_for(std::chrono::nanoseconds(500 - elapsed.count()));
+	}
 }

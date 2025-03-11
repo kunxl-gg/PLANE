@@ -6,16 +6,14 @@ Pipeline::Pipeline(uint8_t threshold, float weights[9], size_t bufferSize)
 	: _running(false),
 	  _buffer(bufferSize),
 	  _dataBlock(_buffer, "data.csv"),
-	  _filterBlock(threshold, weights, _buffer)
-{
+	  _filterBlock(threshold, weights, _buffer) {
 }
 
 Pipeline::~Pipeline() {
-	stop();
 }
 
 void Pipeline::start() {
-	std::cout << "Starting Pipeline...\n";
+	printf("%s",  "Starting Pipeline...\n");
 
 	_running = true;
 	_dataThread = std::thread(&Pipeline::runDataGeneration, this);
@@ -23,7 +21,7 @@ void Pipeline::start() {
 }
 
 void Pipeline::stop() {
-	std::cout << "Stopping Pipeline...\n";
+	printf("%s", "Stopping Pipeline...\n");
 
 	_running = false;
 
@@ -34,6 +32,8 @@ void Pipeline::stop() {
 	if (_filterThread.joinable()) {
 		_filterThread.join();
 	}
+
+	_filterBlock.flush();
 }
 
 bool Pipeline::should_run() {

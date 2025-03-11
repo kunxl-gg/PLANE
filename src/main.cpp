@@ -1,20 +1,23 @@
 #include <fstream>
 #include <iostream>
+
 #include "include/pipeline.hpp"
 
-bool readConfig(std::string filename, uint8_t &threshold, float weights[9], int &time) {
+bool readConfig(std::string filename, unsigned &threshold, float weights[9], int &time) {
 	std::fstream file(filename);
 	if (!file) {
 		std::cerr << "Error in opening file: " << filename << "\n";
 		return false;
 	}
 
-	if (!file >> threshold) {
+	file >> threshold;
+	if (file.fail()) {
 		std::cerr << "Error in reading threshold\n";
 		return false;
 	}
 
-	if (!(file >> time)) {
+	file >> time;
+	if (file.fail()) {
 		std::cerr << "Error in reading time\n";
 		return false;
 	}
@@ -35,20 +38,26 @@ bool readConfig(std::string filename, uint8_t &threshold, float weights[9], int 
 int main() {
 	int time;
 	float weights[9];
-	uint8_t threshold;
+	unsigned threshold;
+
 	if (!readConfig("config.txt", threshold, weights, time))
 		return 1;
+
+	printf("Time: %d Threshold: %u \n", time, threshold);
+	for (size_t i = 0; i < 9; i++)
+		printf("%f ", weights[i]);
+	printf("\n");
 
 	Pipeline pipeline(threshold, weights, 10);
 
 
 #ifdef _DEBUG
+	printf("%s ", "Running in _DEBUG mode\n");
 	pipeline.start();
-	std::cout << "Running in _DEBUG mode \n";
-	std::this_thread::sleep_for(std::chrono::seconds(time));
+	std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	pipeline.stop();
 #else
-	std::cout << "Running in Release mode\n";
+	printf("%s ", "Running in _RELEASE mode \n");
 	pipeline.start();
 	while (pipeline.should_run());
 	pipeline.stop();

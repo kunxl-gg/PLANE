@@ -63,6 +63,8 @@ void RingBuffer::increment() noexcept {
 
 void RingBuffer::print() noexcept {
 	for (int i = 0; i < 10; i++) {
-		std::cout << _buffer[i] << " ";
-	} std::cout << std::endl;
+		printf("%d ", _buffer[i]);
+	}
+
+	printf("\n");
 }

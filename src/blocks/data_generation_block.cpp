@@ -1,6 +1,8 @@
+#include <cstdint>
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <utility>
 #include <vector>
 #include <iostream>
 #include <random>
@@ -12,34 +14,26 @@ DataGenerationBlock::DataGenerationBlock(RingBuffer &buffer, std::string csvPath
 	_buffer = &buffer;
 	_csvPath = csvPath;
 
-	std::cout << _buffer << ": [DataGenerationBlock] buffer \n";
-}
-
-void DataGenerationBlock::readCSV() {
-	std::ifstream file(_csvPath);
-	if (!file.is_open()) {
-		std::cerr << "Error opening file: " << _csvPath << std::endl;
-		return;
-	}
-
-	std::string line;
-	while (std::getline(file, line)) {
-		std::stringstream ss(line);
-		std::vector<uint8_t> values;
-		uint8_t num;
-
-		while (ss >> num) {
-			values.push_back(num);
-			if (ss.peek() == ',') ss.ignore(); // Ignore commas
-		}
-
-		for (size_t i = 0; i + 1 < values.size(); i += 2) {
-			_buffer->write(values[i], values[i + 1]);
-		}
+	_file.open(csvPath);
+	if (!_file) {
+		std::cerr << "Error in opening file: " << _csvPath << std::endl;
 	}
 }
 
-void DataGenerationBlock::generateRandomNumbers() {
+std::pair<uint8_t, uint8_t> DataGenerationBlock::readCSV() {
+	if (!_file.is_open()) {
+		std::cerr << "Error: File not open." << std::endl;
+	}
+
+	uint8_t first, second;
+	char comma;
+
+	_file >> first >> comma >> second;
+	return std::make_pair(first, second);
+
+}
+
+std::pair<uint8_t, uint8_t> DataGenerationBlock::generateRandomNumbers() {
 	std::random_device rd;
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<uint8_t> dist(0, 255);
@@ -48,7 +42,7 @@ void DataGenerationBlock::generateRandomNumbers() {
 	uint8_t a = dist(gen);
 	uint8_t b = dist(gen);
 
-	 _buffer->write(a, b);
+	return std::make_pair(a, b);
 }
 
 void DataGenerationBlock::execute() {
@@ -57,9 +51,33 @@ void DataGenerationBlock::execute() {
 #endif
 
 #ifdef _DEBUG
-	generateRandomNumbers();
+	auto start = std::chrono::high_resolution_clock::now();
+
+	auto input = generateRandomNumbers();
+	bool result = _buffer->write(input.first, input.second);
+
+	auto end = std::chrono::high_resolution_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+
+	if (result && elapsed.count() < 500) {
+		std::this_thread::sleep_for(std::chrono::nanoseconds(500 - elapsed.count()));
+	}
+
 #else
-	readCSV();
+	auto start = std::chrono::high_resolution_clock::now();
+
+	bool result = false;
+	if (!_file.eof()) {
+		auto input = readCSV();
+		result = _buffer->write(input.first, input.second);
+	}
+
+	auto end = std::chrono::high_resolution_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+
+	if (result && elapsed.count() < 500) {
+		std::this_thread::sleep_for(std::chrono::nanoseconds(500 - elapsed.count()));
+	}
 #endif
 }
 

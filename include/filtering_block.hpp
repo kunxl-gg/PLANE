@@ -12,6 +12,7 @@ public:
 	FilteringBlock(uint8_t threshold, float weights[9], RingBuffer &buffer);
 	virtual ~FilteringBlock() = default;
 
+	void flush();
 	std::pair<uint8_t, uint8_t> applySIMDFilter();
 
 	void execute() override;
