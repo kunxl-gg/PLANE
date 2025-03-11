@@ -13,7 +13,7 @@ public:
 	virtual ~FilteringBlock() = default;
 
 	void flush();
-	std::pair<uint8_t, uint8_t> applySIMDFilter();
+	std::pair<uint8_t, uint8_t> applyFilter();
 
 	void execute() override;
 private:

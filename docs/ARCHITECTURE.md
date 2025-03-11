@@ -40,12 +40,12 @@ graph LR;
 - `generateRandomNumbers()`: Generates random numbers.
 
 ### 3. **Filtering Block**
-- Reads data from the **Ring Buffer** and applies a **SIMD-based filter**.
-- Uses AVX instructions to perform vectorized calculations efficiently.
+- Reads data from the **Ring Buffer** and applies a **scalar-based filter**.
+- Uses standard loops and arithmetic operations for filtering.
 
 **Key Functions:**
 - `execute()`: Reads a batch from the ring buffer, applies filtering, and stores results.
-- `applySIMDFilter()`: Uses **AVX intrinsics** to apply weights and threshold filtering.
+- `applyFilter()`: Uses **AVX intrinsics** to apply weights and threshold filtering.
 
 ### 4. **Ring Buffer**
 - A circular buffer that allows efficient **multi-threaded** reading and writing.
@@ -67,7 +67,6 @@ graph LR;
 
 ## Advantages of This Architecture
 - **Scalability:** Additional processing blocks can be added easily.
-- **Efficiency:** SIMD-based filtering speeds up computation.
 - **Parallel Processing:** Data generation and filtering run simultaneously.
 - **Flexibility:** The pipeline can be adapted for different types of processing.
 

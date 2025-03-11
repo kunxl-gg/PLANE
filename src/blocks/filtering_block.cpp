@@ -17,7 +17,7 @@ FilteringBlock::FilteringBlock(uint8_t threshold, float weights[9], RingBuffer &
 #endif
 }
 
-std::pair<uint8_t, uint8_t> FilteringBlock::applySIMDFilter() {
+std::pair<uint8_t, uint8_t> FilteringBlock::applyFilter() {
 	// Iterate for now
 	float a = 0; float b = 0;
 
@@ -59,7 +59,7 @@ void FilteringBlock::execute() {
 		return;
 
 	// Apply SIMD filering and write to outputBuffer
-	auto result = applySIMDFilter();
+	auto result = applyFilter();
 	_outputBuffer.push_back(result.first);
 	_outputBuffer.push_back(result.second);
 
