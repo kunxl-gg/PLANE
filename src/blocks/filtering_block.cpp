@@ -5,7 +5,7 @@
 #include "include/filtering_block.hpp"
 #include "include/ring_buffer.hpp"
 
-FilteringBlock::FilteringBlock(uint8_t threshold, float weights[9], RingBuffer &buffer) {
+FilteringBlock::FilteringBlock(byte threshold, float weights[9], RingBuffer &buffer) {
 	_inputBuffer = &buffer;
 	_threshold = threshold;
 
@@ -18,10 +18,9 @@ FilteringBlock::FilteringBlock(uint8_t threshold, float weights[9], RingBuffer &
 }
 
 std::pair<uint8_t, uint8_t> FilteringBlock::applyFilter() {
-	// Iterate for now
 	float a = 0; float b = 0;
 
-	for (int i = 0; i < 9; i++) {
+	for (size_t i = 0; i + 1 < 9; i++) {
 		a += _weights[i] * _inputBuffer->at(i);
 		b += _weights[i + 1] * _inputBuffer->at(i + 1);
 	}
@@ -58,7 +57,10 @@ void FilteringBlock::execute() {
 	if (!_inputBuffer->read())
 		return;
 
-	// Apply SIMD filering and write to outputBuffer
+	/*
+	* TODO: Apply (SIMD) Filtering later on. 
+	* Currently we are applying the filter iteratively.
+	*/
 	auto result = applyFilter();
 	_outputBuffer.push_back(result.first);
 	_outputBuffer.push_back(result.second);

@@ -20,11 +20,15 @@ DataGenerationBlock::DataGenerationBlock(RingBuffer &buffer, std::string csvPath
 	}
 }
 
+DataGenerationBlock& DataGenerationBlock::operator=(const DataGenerationBlock &other)  {
+	return *this;
+}
+
 bool DataGenerationBlock::hasMoreData() {
 	return !_file.eof();
 }
 
-std::pair<uint8_t, uint8_t> DataGenerationBlock::readCSV() {
+std::pair<byte, byte> DataGenerationBlock::readCSV() {
 	if (!_file.is_open()) {
 		std::cerr << "Error: File not open." << std::endl;
 	}
@@ -37,14 +41,14 @@ std::pair<uint8_t, uint8_t> DataGenerationBlock::readCSV() {
 
 }
 
-std::pair<uint8_t, uint8_t> DataGenerationBlock::generateRandomNumbers() {
+std::pair<byte, byte> DataGenerationBlock::generateRandomNumbers() {
 	std::random_device rd;
 	std::mt19937 gen(rd());
-	std::uniform_int_distribution<uint8_t> dist(0, 255);
+	std::uniform_int_distribution<int> dist(0, 255);
 
 	// Generate two random numbers
-	uint8_t a = dist(gen);
-	uint8_t b = dist(gen);
+	int a = dist(gen);
+	int b = dist(gen);
 
 	return std::make_pair(a, b);
 }

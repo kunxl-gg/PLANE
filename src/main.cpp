@@ -3,10 +3,16 @@
 
 #include "include/pipeline.hpp"
 
-bool readConfig(std::string filename, unsigned &threshold, float weights[9], int &time, int &timePeriod) {
-	std::fstream file(filename);
+bool readConfig(std::string filename, std::string &csvPath, byte &threshold, float weights[9], int &time, int &timePeriod) {
+	std::ifstream file(filename);
 	if (!file) {
 		std::cerr << "Error in opening file: " << filename << "\n";
+		return false;
+	}
+
+	file >> csvPath;
+	if (file.fail()) {
+		std::cerr << "Error in reading csvPath \n";
 		return false;
 	}
 
@@ -38,6 +44,7 @@ bool readConfig(std::string filename, unsigned &threshold, float weights[9], int
 		weights[i] = value;
 	}
 
+	std::cout << "Successfully read config file: " << filename << std::endl;
 	return true;
 }
 
@@ -45,17 +52,19 @@ int main() {
 	int time;
 	int timePeriod;
 	float weights[9];
-	unsigned threshold;
+	byte threshold;
+	std::string csvPath;
 
-	if (!readConfig("config.txt", threshold, weights, time, timePeriod))
+	if (!readConfig("config.txt", csvPath, threshold, weights, time, timePeriod))
 		return 1;
 
 	printf("Time: %d Threshold: %u \n", time, threshold);
+	
 	for (size_t i = 0; i < 9; i++)
 		printf("%f ", weights[i]);
 	printf("\n");
 
-	Pipeline pipeline(threshold, weights, 10);
+	Pipeline pipeline(10, csvPath, threshold, weights);
 
 
 #ifdef _DEBUG

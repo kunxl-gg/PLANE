@@ -7,14 +7,18 @@
 #include "include/iprocess_block.hpp"
 #include "include/ring_buffer.hpp"
 
+using byte = unsigned char;
+
 class DataGenerationBlock : public IProcessBlock {
 public:
+	DataGenerationBlock() = default;
 	DataGenerationBlock(RingBuffer &buffer, std::string csvPath);
+	DataGenerationBlock& operator = (const DataGenerationBlock &block);
 	virtual ~DataGenerationBlock() = default;
 
 	bool hasMoreData();
-	std::pair<uint8_t, uint8_t> readCSV();
-	std::pair<uint8_t, uint8_t> generateRandomNumbers();
+	std::pair<byte, byte> readCSV();
+	std::pair<byte, byte> generateRandomNumbers();
 
 	void execute() override;
 private:

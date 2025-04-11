@@ -2,11 +2,12 @@
 
 #include "include/pipeline.hpp"
 
-Pipeline::Pipeline(uint8_t threshold, float weights[9], size_t bufferSize)
-	: _running(false),
-	  _buffer(bufferSize),
-	  _dataBlock(_buffer, "data.csv"),
-	  _filterBlock(threshold, weights, _buffer) {
+Pipeline::Pipeline(size_t bufferSize, std::string csvPath, byte threshold, float weights[9]) {
+	_running = false;
+	_buffer = RingBuffer(bufferSize);
+	_dataBlock = DataGenerationBlock(_buffer, csvPath);
+	_filterBlock = FilteringBlock(threshold, weights, _buffer);
+	
 }
 
 Pipeline::~Pipeline() {

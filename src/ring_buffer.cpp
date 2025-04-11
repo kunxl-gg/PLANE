@@ -12,11 +12,24 @@ RingBuffer::RingBuffer(const size_t &length) {
 	_size.store(0, std::memory_order_relaxed);
 }
 
+RingBuffer& RingBuffer::operator = (const RingBuffer& other) {
+	if (this == &other)
+		return *this;
+
+	_rptr.store(other._rptr);
+	_wptr.store(other._wptr);
+	_size.store(other._size);
+
+	_buffer = other._buffer;
+
+	return *this;
+}
+
 size_t RingBuffer::capacity() const {
 	return _buffer.size();
 }
 
-size_t RingBuffer::normalise(size_t ptr) noexcept {
+size_t RingBuffer::normalise(size_t ptr) const noexcept {
 	return ptr < capacity() ? ptr : ptr - capacity();
 }
 
@@ -24,7 +37,7 @@ uint8_t RingBuffer::at(size_t index) noexcept {
 	return _buffer[index];
 }
 
-bool RingBuffer::write(const uint8_t &a, const uint8_t &b) noexcept {
+bool RingBuffer::write(const byte &a, const byte &b) noexcept {
 	size_t wptr = _wptr.load();
 	size_t rptr = _rptr.load();
 	size_t size = _size.load();

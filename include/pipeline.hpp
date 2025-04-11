@@ -8,9 +8,11 @@
 #include "include/filtering_block.hpp"
 #include "include/ring_buffer.hpp"
 
+using byte = unsigned char;
+
 class Pipeline {
 public:
-	Pipeline(uint8_t threshold, float weights[9], size_t bufferSize);
+	Pipeline(size_t bufferSize, std::string csvPath, byte threshold, float weights[9]);
 	~Pipeline();
 
 	void start();

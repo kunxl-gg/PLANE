@@ -1,23 +1,25 @@
 #ifndef FILTERING_BLOCK_H
 #define FILTERING_BLOCK_H
 
-#include <cstdint>
 #include <vector>
 
 #include "include/iprocess_block.hpp"
 #include "include/ring_buffer.hpp"
 
+using byte = unsigned char;
+
 class FilteringBlock : public IProcessBlock {
 public:
-	FilteringBlock(uint8_t threshold, float weights[9], RingBuffer &buffer);
+	FilteringBlock() = default;
+	FilteringBlock(byte threshold, float weights[9], RingBuffer &buffer);
 	virtual ~FilteringBlock() = default;
 
 	void flush();
-	std::pair<uint8_t, uint8_t> applyFilter();
+	std::pair<byte, byte> applyFilter();
 
 	void execute() override;
 private:
-	uint8_t _threshold;
+	byte _threshold;
 	float _weights[9];
 
 	RingBuffer *_inputBuffer;
