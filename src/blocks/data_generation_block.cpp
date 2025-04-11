@@ -10,7 +10,7 @@
 
 #include "include/data_generation_block.hpp"
 
-DataGenerationBlock::DataGenerationBlock(RingBuffer &buffer, std::string csvPath) {
+DataGenerationBlock::DataGenerationBlock(std::string csvPath, RingBuffer &buffer) {
 	_buffer = &buffer;
 	_csvPath = csvPath;
 

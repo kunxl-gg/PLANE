@@ -1,36 +1,34 @@
 #include <fstream>
 #include <iostream>
+#include <string>
 
 #include "include/pipeline.hpp"
 
-bool readConfig(std::string filename, std::string &csvPath, byte &threshold, float weights[9], int &time, int &timePeriod) {
+bool readConfig(
+		std::string filename,
+		std::string &csvPath,
+		unsigned &threshold,
+		float weights[],
+		unsigned &time
+	) {
 	std::ifstream file(filename);
-	if (!file) {
+	if (!file.is_open()) {
 		std::cerr << "Error in opening file: " << filename << "\n";
 		return false;
 	}
 
-	file >> csvPath;
-	if (file.fail()) {
+	if (!(file >> csvPath)) {
 		std::cerr << "Error in reading csvPath \n";
 		return false;
 	}
 
-	file >> threshold;
-	if (file.fail()) {
+	if (!(file >> threshold)) {
 		std::cerr << "Error in reading threshold\n";
 		return false;
 	}
 
-	file >> time;
-	if (file.fail()) {
+	if (!(file >> time)) {
 		std::cerr << "Error in reading time\n";
-		return false;
-	}
-
-	file >> timePeriod;
-	if (file.fail()) {
-		std::cerr << "Error in reading time period\n";
 		return false;
 	}
 
@@ -44,28 +42,33 @@ bool readConfig(std::string filename, std::string &csvPath, byte &threshold, flo
 		weights[i] = value;
 	}
 
-	std::cout << "Successfully read config file: " << filename << std::endl;
+	std::cout << "Config loaded successfully:\n"
+			  << "  CSV Path     : " << csvPath << "\n"
+			  << "  Threshold    : " << static_cast<int>(threshold) << "\n"
+			  << "  Time         : " << time << " ms\n"
+			  << "  Weights      : [";
+
+	for (int i = 0; i < 9; ++i) {
+		std::cout << weights[i];
+		if (i + 1 < 9)
+			std::cout << ", ";
+	}
+	std::cout << "]\n";
+
 	return true;
 }
 
 int main() {
-	int time;
-	int timePeriod;
 	float weights[9];
-	byte threshold;
 	std::string csvPath;
+	unsigned time = 0;
+	unsigned threshold = 0;
 
-	if (!readConfig("config.txt", csvPath, threshold, weights, time, timePeriod))
+	if (!readConfig("config.txt", csvPath, threshold, weights, time))
 		return 1;
 
-	printf("Time: %d Threshold: %u \n", time, threshold);
-	
-	for (size_t i = 0; i < 9; i++)
-		printf("%f ", weights[i]);
-	printf("\n");
-
+	// Initialise the Pipeline.
 	Pipeline pipeline(10, csvPath, threshold, weights);
-
 
 #ifdef _DEBUG
 	printf("%s ", "Running in _DEBUG mode\n");
@@ -73,7 +76,7 @@ int main() {
 	std::this_thread::sleep_for(std::chrono::milliseconds(time));
 	pipeline.stop();
 #else
-	printf("%s ", "Running in _RELEASE mode \n");
+	std::cout << "Running in _RELEASE mode\n";
 	pipeline.start();
 	while (pipeline.should_run());
 	pipeline.stop();

@@ -76,10 +76,11 @@ The `config.txt` file should follow this pattern:
 
 ```
 <threshold>
-<time_to_run_the_experiment_for_outside_of_CSV_mode>
-<time_period_for_each_block>
+<time_to_run_the_experiment_for_outside_of_CSV_mode (in milliseconds)>
+<time_period_for_each_block (in ns)>
 <weights_for_filter>
 ```
+The final output after the entire program has run is stored in **output.txt**
 
 ## Code Structure
 ```

@@ -2,19 +2,15 @@
 
 #include "include/pipeline.hpp"
 
-Pipeline::Pipeline(size_t bufferSize, std::string csvPath, byte threshold, float weights[9]) {
-	_running = false;
-	_buffer = RingBuffer(bufferSize);
-	_dataBlock = DataGenerationBlock(_buffer, csvPath);
-	_filterBlock = FilteringBlock(threshold, weights, _buffer);
-	
-}
-
-Pipeline::~Pipeline() {
+Pipeline::Pipeline(size_t bufferSize, std::string csvPath, byte threshold, float weights[9])
+	: _running(false),
+	_buffer(bufferSize),
+	_dataBlock(csvPath, _buffer),
+	_filterBlock(threshold, weights, _buffer) {
 }
 
 void Pipeline::start() {
-	printf("%s",  "Starting Pipeline...\n");
+	std::cout << "Starting Pipeline...\n";
 
 	_running = true;
 	_dataThread = std::thread(&Pipeline::runDataGeneration, this);
@@ -22,7 +18,7 @@ void Pipeline::start() {
 }
 
 void Pipeline::stop() {
-	printf("%s", "Stopping Pipeline...\n");
+	std::cout << "Stopping Pipeline...\n";
 
 	_running = false;
 

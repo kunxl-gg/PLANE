@@ -12,8 +12,9 @@ using byte = unsigned char;
 
 class Pipeline {
 public:
+	Pipeline() = default;
 	Pipeline(size_t bufferSize, std::string csvPath, byte threshold, float weights[9]);
-	~Pipeline();
+	~Pipeline() = default;
 
 	void start();
 	void stop();

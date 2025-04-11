@@ -2,6 +2,7 @@
 #include <cstddef>
 #include <iostream>
 #include <ostream>
+#include <sys/resource.h>
 
 #include "include/ring_buffer.hpp"
 
@@ -72,6 +73,10 @@ void RingBuffer::increment() noexcept {
 	size_t rptr = _rptr.load(std::memory_order_relaxed);
 	rptr = normalise(rptr + 2);
     _rptr.store(rptr, std::memory_order_release);
+}
+
+size_t RingBuffer::getReadIndex() noexcept {
+	return _rptr;
 }
 
 void RingBuffer::print() noexcept {

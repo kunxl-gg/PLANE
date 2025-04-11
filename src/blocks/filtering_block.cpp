@@ -1,4 +1,5 @@
 #include <cstdint>
+#include <fstream>
 #include <iostream>
 #include <thread>
 
@@ -25,11 +26,12 @@ std::pair<uint8_t, uint8_t> FilteringBlock::applyFilter() {
 		b += _weights[i + 1] * _inputBuffer->at(i + 1);
 	}
 
+	_inputBuffer->print();
 	return std::make_pair(a, b);
 }
 
 void FilteringBlock::flush() {
-	FILE *file = fopen("output.txt", "w");
+	std::fstream file("output.txt");
 	if (!file) {
 		perror("Error opening file");
 		return;
@@ -37,13 +39,14 @@ void FilteringBlock::flush() {
 
 	for (size_t i = 0; i < _outputBuffer.size(); i += 10) {
 		for (int j = 0; j < 10; j++) {
+			if (i + j >= _outputBuffer.size()) break;
 			uint8_t value = _outputBuffer[i + j] >= _threshold ? 1 : 0;
-			fprintf(file, "%d ", value);
+			file << value << " ";
 		}
-		fprintf(file, "\n");
+		file << "\n";
 	}
 
-	fclose(file);
+	file.close();
 }
 
 void FilteringBlock::execute() {
@@ -58,7 +61,7 @@ void FilteringBlock::execute() {
 		return;
 
 	/*
-	* TODO: Apply (SIMD) Filtering later on. 
+	* TODO: Apply (SIMD) Filtering later on.
 	* Currently we are applying the filter iteratively.
 	*/
 	auto result = applyFilter();

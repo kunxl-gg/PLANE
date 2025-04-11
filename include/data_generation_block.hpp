@@ -12,7 +12,7 @@ using byte = unsigned char;
 class DataGenerationBlock : public IProcessBlock {
 public:
 	DataGenerationBlock() = default;
-	DataGenerationBlock(RingBuffer &buffer, std::string csvPath);
+	DataGenerationBlock(std::string csvPath, RingBuffer &buffer);
 	DataGenerationBlock& operator = (const DataGenerationBlock &block);
 	virtual ~DataGenerationBlock() = default;
 
