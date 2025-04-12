@@ -26,21 +26,20 @@ std::pair<uint8_t, uint8_t> FilteringBlock::applyFilter() {
 		b += _weights[i + 1] * _inputBuffer->at(i + 1);
 	}
 
-	_inputBuffer->print();
 	return std::make_pair(a, b);
 }
 
 void FilteringBlock::flush() {
 	std::fstream file("output.txt");
-	if (!file) {
-		perror("Error opening file");
+	if (!file.is_open()) {
+		std::cerr << "Error opening file" << std::endl;
 		return;
 	}
 
 	for (size_t i = 0; i < _outputBuffer.size(); i += 10) {
 		for (int j = 0; j < 10; j++) {
 			if (i + j >= _outputBuffer.size()) break;
-			uint8_t value = _outputBuffer[i + j] >= _threshold ? 1 : 0;
+			unsigned value = _outputBuffer[i + j] >= _threshold ? 1 : 0;
 			file << value << " ";
 		}
 		file << "\n";

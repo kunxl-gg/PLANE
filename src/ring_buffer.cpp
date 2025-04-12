@@ -2,7 +2,6 @@
 #include <cstddef>
 #include <iostream>
 #include <ostream>
-#include <sys/resource.h>
 
 #include "include/ring_buffer.hpp"
 
