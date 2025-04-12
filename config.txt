@@ -1,4 +1,4 @@
-/Users/kunaltiwari/cynlr/data.csv
+C:\Users\hrish\PLANE\data.csv
 128
 3000
 500
