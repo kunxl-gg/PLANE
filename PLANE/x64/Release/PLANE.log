@@ -1,0 +1,2 @@
+﻿LINK : warning LNK4075: ignoring '/INCREMENTAL' due to '/OPT:ICF' specification
+  PLANE.vcxproj -> C:\Users\hrish\PLANE\x64\Release\PLANE.exe

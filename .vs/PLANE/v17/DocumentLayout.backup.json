@@ -1,0 +1,184 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\hrish\\PLANE\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\src\\blocks\\filtering_block.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:src\\blocks\\filtering_block.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\config.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:config.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\src\\ring_buffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:src\\ring_buffer.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:src\\main.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\src\\blocks\\data_generation_block.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:src\\blocks\\data_generation_block.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\include\\pipeline.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:include\\pipeline.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\include\\iprocess_block.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:include\\iprocess_block.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\include\\filtering_block.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:include\\filtering_block.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\include\\data_generation_block.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:include\\data_generation_block.hpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|C:\\Users\\hrish\\PLANE\\src\\pipeline.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{89000B34-1829-4D53-9BC0-0528D471EF35}|PLANE.vcxproj|solutionrelative:src\\pipeline.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "config.txt",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\config.txt",
+              "RelativeDocumentMoniker": "config.txt",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\config.txt",
+              "RelativeToolTip": "config.txt",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-04-11T08:57:25.682Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "filtering_block.hpp",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\include\\filtering_block.hpp",
+              "RelativeDocumentMoniker": "include\\filtering_block.hpp",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\include\\filtering_block.hpp",
+              "RelativeToolTip": "include\\filtering_block.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-04-11T08:38:31.147Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "filtering_block.cpp",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\src\\blocks\\filtering_block.cpp",
+              "RelativeDocumentMoniker": "src\\blocks\\filtering_block.cpp",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\src\\blocks\\filtering_block.cpp",
+              "RelativeToolTip": "src\\blocks\\filtering_block.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-04-11T08:38:32.645Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "data_generation_block.cpp",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\src\\blocks\\data_generation_block.cpp",
+              "RelativeDocumentMoniker": "src\\blocks\\data_generation_block.cpp",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\src\\blocks\\data_generation_block.cpp",
+              "RelativeToolTip": "src\\blocks\\data_generation_block.cpp",
+              "ViewState": "AgIAAAIAAAAAAAAAAAAWwA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-04-11T06:54:53.316Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "iprocess_block.hpp",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\include\\iprocess_block.hpp",
+              "RelativeDocumentMoniker": "include\\iprocess_block.hpp",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\include\\iprocess_block.hpp",
+              "RelativeToolTip": "include\\iprocess_block.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-04-11T06:48:54.502Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "pipeline.hpp",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\include\\pipeline.hpp",
+              "RelativeDocumentMoniker": "include\\pipeline.hpp",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\include\\pipeline.hpp",
+              "RelativeToolTip": "include\\pipeline.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-04-11T08:11:28.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ring_buffer.cpp",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\src\\ring_buffer.cpp",
+              "RelativeDocumentMoniker": "src\\ring_buffer.cpp",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\src\\ring_buffer.cpp",
+              "RelativeToolTip": "src\\ring_buffer.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAMAAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-04-11T06:49:48.961Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "main.cpp",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\src\\main.cpp",
+              "RelativeDocumentMoniker": "src\\main.cpp",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\src\\main.cpp",
+              "RelativeToolTip": "src\\main.cpp",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAmwFAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-04-11T07:56:37.275Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "data_generation_block.hpp",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\include\\data_generation_block.hpp",
+              "RelativeDocumentMoniker": "include\\data_generation_block.hpp",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\include\\data_generation_block.hpp",
+              "RelativeToolTip": "include\\data_generation_block.hpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000680|",
+              "WhenOpened": "2025-04-11T08:17:11.506Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "pipeline.cpp",
+              "DocumentMoniker": "C:\\Users\\hrish\\PLANE\\src\\pipeline.cpp",
+              "RelativeDocumentMoniker": "src\\pipeline.cpp",
+              "ToolTip": "C:\\Users\\hrish\\PLANE\\src\\pipeline.cpp",
+              "RelativeToolTip": "src\\pipeline.cpp",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAABdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2025-04-11T06:49:33.702Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
