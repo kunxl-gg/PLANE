@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 
+#include "include/debug.hpp"
 #include "include/pipeline.hpp"
 
 bool readConfig(
@@ -71,12 +72,12 @@ int main() {
 	Pipeline pipeline(10, csvPath, threshold, weights);
 
 #ifdef _DEBUG
-	printf("%s ", "Running in _DEBUG mode\n");
+	info("Running in _DEBUG mode");
 	pipeline.start();
 	std::this_thread::sleep_for(std::chrono::milliseconds(time));
 	pipeline.stop();
 #else
-	std::cout << "Running in _RELEASE mode\n";
+	info("Running in _RELEASE mode");
 	pipeline.start();
 	while (pipeline.should_run());
 	pipeline.stop();
