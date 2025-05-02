@@ -30,6 +30,7 @@ int main(int argv, const char *argc[]) {
 	pipeline.stop();
 #else
 	info("Running in _RELEASE mode");
+	pipeline.init();
 	pipeline.start();
 	pipeline.stop();
 #endif

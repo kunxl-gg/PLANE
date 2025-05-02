@@ -75,7 +75,6 @@ bool readConfig(
 
 void parseCommandLine(int argv, const char *argc[]) {
 	std::string debugFlags;
-	int debugLevel = -1;
 
 	if (argv == 1) return;
 
