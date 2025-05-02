@@ -37,7 +37,7 @@ void debugN(const char *s, ...) {
 }
 
 void debugC(int level, uint32_t debugChannel, const char *s, ...) {
-	if (level > glevel || !DebugManager::instance().isChannelEnabled(debugChannel))
+	if (level > glevel || !DebugManager::instance().isDebugChannelEnabled(debugChannel))
 		return;
 
     char buffer[1024];
@@ -52,7 +52,7 @@ void debugC(int level, uint32_t debugChannel, const char *s, ...) {
 }
 
 void debugCN(int level, uint32_t debugChannel, const char *s, ...) {
-	if (level > glevel || !DebugManager::instance().isChannelEnabled(debugChannel))
+	if (level > glevel || !DebugManager::instance().isDebugChannelEnabled(debugChannel))
 		return;
 
     char buffer[1024];
@@ -144,6 +144,19 @@ void successN(const char *s, ...) {
     va_end(args);
 }
 
+void warn(const char *s, ...) {
+    char buffer[1024];
+    std::time_t currentTime = std::time(nullptr);
+    std::strftime(buffer, sizeof(buffer), "%H:%M:%S [WARN]", std::localtime(&currentTime));
+
+    snprintf(buffer + strlen(buffer), 1024, " %s\n", s);
+
+    va_list args;
+    va_start(args, s);
+    vprintf(buffer, args);
+    va_end(args);
+}
+
 void DebugManager::addDebugChannel(uint32_t channel, std::string name, std::string desc) {
 	for (auto &debugChannel: _debugChannels) {
 		if (debugChannel.second._channel == channel)
@@ -168,12 +181,34 @@ bool DebugManager::isDebugChannelEnabled(uint32_t debugChannel) {
 	return false;
 }
 
-void DebugManager::enableDebugChannel(const uint32_t &debugChannel) {
+bool DebugManager::enableDebugChannel(const uint32_t &debugChannel) {
 	_debugChannelsEnabled[debugChannel] = true;
-	return;
+	return true;
 }
 
-void DebugManager::disableDebugChannel(const uint32_t &debugChannel) {
+bool DebugManager::disableDebugChannel(const uint32_t &debugChannel) {
 	_debugChannelsEnabled[debugChannel] = false;
-	return;
+	return true;
+}
+
+bool DebugManager::enableDebugChannel(const std::string &name) {
+	auto pos = _debugChannels.find(name);
+
+	if (pos != _debugChannels.end()) {
+		_debugChannelsEnabled[_debugChannels[name]._channel] = true;
+		return true;
+	} else {
+		return false;
+	}
+}
+
+bool DebugManager::disableDebugChannel(const std::string &name) {
+	auto pos = _debugChannels.find(name);
+
+	if (pos != _debugChannels.end()) {
+		_debugChannelsEnabled[_debugChannels[name]._channel] = false;
+		return true;
+	} else {
+		return false;
+	}
 }

@@ -7,7 +7,7 @@
 
 struct DebugChannel {
 	DebugChannel() : _channel(0) {}
-	DebugChannel(uint32_t c, std::string &name, std::string &desc)
+	DebugChannel(uint32_t c, std::string name, std::string desc)
 		: _name(name), _description(desc), _channel(c) {}
 
 	std::string _name;
@@ -29,13 +29,15 @@ public:
 	void addDebugChannel(uint32_t channel, std::string name, std::string desc);
 
 	bool isDebugChannelEnabled(uint32_t debugChannel);
-	void enableDebugChannel(const uint32_t &debugChannel);
-	void disableDebugChannel(const uint32_t &debugChannel);
+	bool enableDebugChannel(const uint32_t &debugChannel);
+	bool enableDebugChannel(const std::string &debugChannel);
+	bool disableDebugChannel(const uint32_t &debugChannel);
+	bool disableDebugChannel(const std::string &debugChannel);
 private:
 	std::unordered_map<std::string, DebugChannel> _debugChannels;
 	std::unordered_map<uint32_t, bool> _debugChannelsEnabled;
 };
 
-extern int glevel;
+extern "C" int glevel;
 
 #endif // DEBUG_MANAGER_H
