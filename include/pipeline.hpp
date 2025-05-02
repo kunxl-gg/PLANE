@@ -4,31 +4,27 @@
 #include <thread>
 #include <atomic>
 
-#include "include/data_generation_block.hpp"
-#include "include/filtering_block.hpp"
-#include "include/ring_buffer.hpp"
+#include "include/iprocess_block.hpp"
 
 using byte = unsigned char;
 
 class Pipeline {
 public:
-	Pipeline() = default;
-	Pipeline(size_t bufferSize, std::string csvPath, byte threshold, float weights[9]);
-	~Pipeline() = default;
+	Pipeline();
+	~Pipeline();
 
+	void run();
 	void start();
 	void stop();
 	bool should_run();
 
+	void addBlock(IProcessBlock *block);
+	void execute(IProcessBlock *block);
 private:
 	std::atomic<bool> _running;
-	std::thread _dataThread;
-	std::thread _filterThread;
 
-	RingBuffer _buffer;
-	DataGenerationBlock _dataBlock;
-	FilteringBlock _filterBlock;
-
+	std::vector<std::thread> _threads;
+	std::vector<IProcessBlock *> _blocks;
 private:
 	void runDataGeneration();
 	void runFiltering();

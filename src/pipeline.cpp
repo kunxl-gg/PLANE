@@ -1,50 +1,56 @@
-#include <iostream>
-
+#include "include/data_generation_block.hpp"
+#include "include/debug.hpp"
+#include "include/filtering_block.hpp"
 #include "include/pipeline.hpp"
 
-Pipeline::Pipeline(size_t bufferSize, std::string csvPath, byte threshold, float weights[9])
-	: _running(false),
-	_buffer(bufferSize),
-	_dataBlock(csvPath, _buffer),
-	_filterBlock(threshold, weights, _buffer) {
+Pipeline::Pipeline() : _running(false) {}
+
+Pipeline::~Pipeline() {
+	for (auto block: _blocks) {
+		delete block;
+	}
 }
 
 void Pipeline::start() {
-	std::cout << "Starting Pipeline...\n";
+	info("Starting Pipeline...");
 
-	_running = true;
-	_dataThread = std::thread(&Pipeline::runDataGeneration, this);
-	_filterThread = std::thread(&Pipeline::runFiltering, this);
+	DataGenerationBlock *dataBlock = new DataGenerationBlock();
+	FilteringBlock *filterBlock = new FilteringBlock();
+
+	addBlock(dataBlock);
+	addBlock(filterBlock);
 }
 
 void Pipeline::stop() {
-	std::cout << "Stopping Pipeline...\n";
-
+	info("Stopping Pipeline...");
 	_running = false;
 
-	if (_dataThread.joinable()) {
-		_dataThread.join();
+	for (std::thread &thread: _threads) {
+		if (thread.joinable()) thread.join();
 	}
-
-	if (_filterThread.joinable()) {
-		_filterThread.join();
-	}
-
-	_filterBlock.flush();
+	_threads.clear();
 }
 
-bool Pipeline::should_run() {
-	return _dataBlock.hasMoreData();
+void Pipeline::addBlock(IProcessBlock *block) {
+	_blocks.push_back(block);
+	return;
 }
 
-void Pipeline::runDataGeneration() {
+void Pipeline::run() {
+	_running = true;
+
+#ifdef _DEBUG
+	for (IProcessBlock *block: _blocks) {
+		_threads.emplace_back(&Pipeline::execute, this, block);
+	}
+#else
+	debug("_RELEASE mode Placeholder: Add Release logic here.");
+#endif
+}
+
+void Pipeline::execute(IProcessBlock *block) {
 	while (_running.load(std::memory_order_relaxed)) {
-		_dataBlock.execute();
+		block->execute();
 	}
 }
 
-void Pipeline::runFiltering() {
-	while (_running.load(std::memory_order_relaxed)) {
-		_filterBlock.execute();
-	}
-}
