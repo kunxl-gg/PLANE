@@ -9,6 +9,7 @@
 #include <thread>
 
 #include "include/data_generation_block.hpp"
+#include "include/debug.hpp"
 
 DataGenerationBlock::DataGenerationBlock(std::string csvPath, RingBuffer &buffer) {
 	_buffer = &buffer;
@@ -18,10 +19,6 @@ DataGenerationBlock::DataGenerationBlock(std::string csvPath, RingBuffer &buffer
 	if (!_file) {
 		std::cerr << "Error in opening file: " << _csvPath << std::endl;
 	}
-}
-
-DataGenerationBlock& DataGenerationBlock::operator=(const DataGenerationBlock &other)  {
-	return *this;
 }
 
 bool DataGenerationBlock::hasMoreData() {
@@ -54,38 +51,6 @@ std::pair<byte, byte> DataGenerationBlock::generateRandomNumbers() {
 }
 
 void DataGenerationBlock::execute() {
-#ifdef _DEBUG_LOG
-	std::cout << "[DataGenerationBlock] Running on Thread ID: " << std::this_thread::get_id() << "\n";
-#endif
-
-#ifdef _DEBUG
-	auto start = std::chrono::high_resolution_clock::now();
-
-	auto input = generateRandomNumbers();
-	bool result = _buffer->write(input.first, input.second);
-
-	auto end = std::chrono::high_resolution_clock::now();
-	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-
-	if (result && elapsed.count() < 500) {
-		std::this_thread::sleep_for(std::chrono::nanoseconds(500 - elapsed.count()));
-	}
-
-#else
-	auto start = std::chrono::high_resolution_clock::now();
-
-	bool result = false;
-	if (!_file.eof()) {
-		auto input = readCSV();
-		result = _buffer->write(input.first, input.second);
-	}
-
-	auto end = std::chrono::high_resolution_clock::now();
-	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-
-	if (result && elapsed.count() < 500) {
-		std::this_thread::sleep_for(std::chrono::nanoseconds(500 - elapsed.count()));
-	}
-#endif
+	debug("[DataGenerationBlock] Running on Thread ID: %d", std::this_thread::get_id());
 }
 

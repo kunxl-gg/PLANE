@@ -4,6 +4,7 @@
 #include <thread>
 
 #include "include/filtering_block.hpp"
+#include "include/debug.hpp"
 #include "include/ring_buffer.hpp"
 
 FilteringBlock::FilteringBlock(byte threshold, float weights[9], RingBuffer &buffer) {
@@ -49,31 +50,5 @@ void FilteringBlock::flush() {
 }
 
 void FilteringBlock::execute() {
-#ifdef _DEBUG_LOG
-	std::cout << "[FilteringBlock] Running on Thread ID: " << std::this_thread::get_id() << "\n";
-#endif
-
-	auto start = std::chrono::high_resolution_clock::now();
-
-	// Read the input from the ring buffer
-	if (!_inputBuffer->read())
-		return;
-
-	/*
-	* TODO: Apply (SIMD) Filtering later on.
-	* Currently we are applying the filter iteratively.
-	*/
-	auto result = applyFilter();
-	_outputBuffer.push_back(result.first);
-	_outputBuffer.push_back(result.second);
-
-	_inputBuffer->increment();
-
-	auto end = std::chrono::high_resolution_clock::now();
-	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
-
-	// Ensure execution time is at least 500 ns
-	if (elapsed.count() < 500) {
-		std::this_thread::sleep_for(std::chrono::nanoseconds(500 - elapsed.count()));
-	}
+	debug("[FilteringBlock] Running on Thread ID: %d", std::this_thread::get_id());
 }

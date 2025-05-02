@@ -13,7 +13,6 @@ class DataGenerationBlock : public IProcessBlock {
 public:
 	DataGenerationBlock() = default;
 	DataGenerationBlock(std::string csvPath, RingBuffer &buffer);
-	DataGenerationBlock& operator = (const DataGenerationBlock &block);
 	virtual ~DataGenerationBlock() = default;
 
 	bool hasMoreData();
