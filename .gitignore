@@ -6,3 +6,12 @@ compile_flags.txt
 
 *.csv
 *.txt
+
+*.sln
+*.vcxproj
+*.filters
+*.user
+
+x64/
+PLANE/
+
