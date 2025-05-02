@@ -1,6 +1,6 @@
 # Parallel Line Scanner Architecture for Near real-time Execution
 
-This project implements a **multi-threaded lock free ring buffer** for real-time line scanning that
+This project implements a **multi-threaded lock free ring buffer** for real-time line scanning
 
 ## Installation
 ### Prerequisites
@@ -9,8 +9,8 @@ This project implements a **multi-threaded lock free ring buffer** for real-time
 - Visual Studio (Windows) or Make (Linux/macOS)
 
 ## Build Instructions
-- Use Release Mode to read from CSV 
-- Use Debug Mode to generate random data. 
+- Use Release Mode to read from CSV
+- Use Debug Mode to generate random data.
 
 Make sure to have **`config.txt`** and **`data.csv`** in the same directory, as the application requires them for configuration and input data.
 
