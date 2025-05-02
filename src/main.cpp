@@ -25,13 +25,12 @@ int main(int argv, const char *argc[]) {
 
 #ifdef _DEBUG
 	info("Running in _DEBUG mode");
+	pipeline.init();
 	pipeline.start();
-	pipeline.run();
 	pipeline.stop();
 #else
 	info("Running in _RELEASE mode");
 	pipeline.start();
-	while (pipeline.should_run());
 	pipeline.stop();
 #endif
 

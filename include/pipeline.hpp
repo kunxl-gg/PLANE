@@ -13,7 +13,7 @@ public:
 	Pipeline();
 	~Pipeline();
 
-	void run();
+	void init();
 	void start();
 	void stop();
 	bool should_run();

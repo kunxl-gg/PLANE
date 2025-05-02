@@ -1,6 +1,9 @@
+#include <thread>
+
 #include "include/data_generation_block.hpp"
 #include "include/debug.hpp"
 #include "include/filtering_block.hpp"
+#include "include/labelling_block.hpp"
 #include "include/pipeline.hpp"
 
 Pipeline::Pipeline() : _running(false) {}
@@ -11,18 +14,20 @@ Pipeline::~Pipeline() {
 	}
 }
 
-void Pipeline::start() {
-	info("Starting Pipeline...");
+void Pipeline::init() {
+	info("Initialising the Pipeline...");
 
 	DataGenerationBlock *dataBlock = new DataGenerationBlock();
 	FilteringBlock *filterBlock = new FilteringBlock();
+	LabellingBlock *labellingBlock = new LabellingBlock();
 
 	addBlock(dataBlock);
 	addBlock(filterBlock);
+	addBlock(labellingBlock);
 }
 
 void Pipeline::stop() {
-	info("Stopping Pipeline...");
+	info("Stopping the Pipeline...");
 	_running = false;
 
 	for (std::thread &thread: _threads) {
@@ -36,13 +41,14 @@ void Pipeline::addBlock(IProcessBlock *block) {
 	return;
 }
 
-void Pipeline::run() {
+void Pipeline::start() {
 	_running = true;
-
-#ifdef _DEBUG
 	for (IProcessBlock *block: _blocks) {
 		_threads.emplace_back(&Pipeline::execute, this, block);
 	}
+
+#ifdef _DEBUG
+	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 #else
 	debug("_RELEASE mode Placeholder: Add Release logic here.");
 #endif
