@@ -4,6 +4,7 @@
 #include <vector>
 
 #include "include/iprocess_block.hpp"
+#include "include/lock_free_queue.hpp"
 #include "include/ring_buffer.hpp"
 
 using byte = unsigned char;
@@ -24,6 +25,9 @@ private:
 
 	RingBuffer *_inputBuffer;
 	std::vector<uint8_t> _outputBuffer;
+
+	Queue *_inputQueue;
+	Queue *_outputQueue;
 };
 
 #endif // FILTERING_BLOCK_H
