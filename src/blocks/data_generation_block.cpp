@@ -9,9 +9,15 @@
 #include "include/data_generation_block.hpp"
 #include "include/debug.hpp"
 
-DataGenerationBlock::DataGenerationBlock(std::string csvPath, RingBuffer &buffer) {
+DataGenerationBlock::DataGenerationBlock(
+		std::string csvPath,
+		RingBuffer &buffer,
+		Queue *inputQueue,
+		Queue *outputQueue) {
 	_buffer = &buffer;
 	_csvPath = csvPath;
+	_inputQueue = inputQueue;
+	_outputQueue = outputQueue;
 
 	_file.open(csvPath);
 	if (!_file) {
