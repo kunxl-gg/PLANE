@@ -3,9 +3,11 @@
 
 #include <fstream>
 #include <iostream>
+#include <sstream>
 #include <string>
 
 #include "include/debug-manager.hpp"
+#include "include/debug.hpp"
 
 enum DebugLevels {
 	kDebugQuant = 1,
@@ -24,7 +26,8 @@ bool readConfig(
 		std::string &csvPath,
 		unsigned &threshold,
 		float weights[],
-		unsigned &time
+		unsigned &time,
+		unsigned &ncolumns
 	) {
 	std::ifstream file(filename);
 	if (!file.is_open()) {
@@ -47,6 +50,11 @@ bool readConfig(
 		return false;
 	}
 
+	if (!(file >> ncolumns)) {
+		std::cerr << "Error in reading no. of columns\n";
+		return false;
+	}
+
 	float value;
 	for (int i = 0; i < 9; i++) {
 		if (!(file >> value)) {
@@ -57,18 +65,20 @@ bool readConfig(
 		weights[i] = value;
 	}
 
-	std::cout << "Config loaded successfully:\n"
-			  << "  CSV Path     : " << csvPath << "\n"
-			  << "  Threshold    : " << static_cast<int>(threshold) << "\n"
-			  << "  Time         : " << time << " ms\n"
-			  << "  Weights      : [";
+	info("CSV Path       : %s", csvPath.c_str());
+	info("Threshold      : %d", static_cast<int>(threshold));
+	info("Time           : %u ms", time);
+	info("No. of Columns : %zu", ncolumns);
 
-	for (int i = 0; i < 9; ++i) {
-		std::cout << weights[i];
-		if (i + 1 < 9)
-			std::cout << ", ";
-	}
-	std::cout << "]\n";
+    std::ostringstream oss;
+    oss << "Weights        : [";
+    for (int i = 0; i < 9; ++i) {
+        oss << weights[i];
+        if (i + 1 < 9)
+            oss << ", ";
+    }
+    oss << "]";
+    info("%s", oss.str().c_str());
 
 	return true;
 }

@@ -7,11 +7,12 @@
 int main(int argv, const char *argc[]) {
 	float weights[9];
 	std::string csvPath;
+	unsigned ncolumns = 0;
 	unsigned time = 0;
 	unsigned threshold = 0;
 
 	// Read Config file.
-	if (!readConfig("config.txt", csvPath, threshold, weights, time))
+	if (!readConfig("config.txt", csvPath, threshold, weights, time, ncolumns))
 		return 1;
 
 	// Add debugFlags to the debug Manager.
