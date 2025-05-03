@@ -2,7 +2,6 @@
 #define THREAD_SAFE_QUEUE_H
 
 #include <atomic>
-#include <cstddef>
 
 struct PixelData {
 	uint32_t _row;
@@ -26,14 +25,16 @@ public:
 
 	bool empty() const noexcept;
 	bool full() const noexcept;
+	size_t normalise(const size_t &ptr) const noexcept;
 	size_t capacity() const noexcept { return _capacity; }
+
+	template<typename U>
+	bool enqueueImpl(U &&item) noexcept;
 private:
 	T *_buffer;
-	const size_t _capacity;
+	size_t _capacity;
 	alignas(64) std::atomic<size_t> _head{0};
 	alignas(64) std::atomic<size_t> _tail{0};
-
-	inline size_t mask(size_t idx) const noexcept { return idx & (_capacity - 1); }
 };
 
 typedef LockFreeQueue<PixelData> Queue;
