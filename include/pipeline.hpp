@@ -5,6 +5,7 @@
 #include <atomic>
 
 #include "include/iprocess_block.hpp"
+#include "include/lock_free_queue.hpp"
 
 using byte = unsigned char;
 
@@ -20,11 +21,14 @@ public:
 
 	void addBlock(IProcessBlock *block);
 	void execute(IProcessBlock *block);
+
+	void addQueue(Queue *queue);
 private:
 	std::atomic<bool> _running;
 
-	std::vector<std::thread> _threads;
 	std::vector<IProcessBlock *> _blocks;
+	std::vector<Queue *> _queues;
+	std::vector<std::thread> _threads;
 private:
 	void runDataGeneration();
 	void runFiltering();

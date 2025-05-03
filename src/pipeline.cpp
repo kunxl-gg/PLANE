@@ -4,6 +4,7 @@
 #include "include/debug.hpp"
 #include "include/filtering_block.hpp"
 #include "include/labelling_block.hpp"
+#include "include/lock_free_queue.hpp"
 #include "include/pipeline.hpp"
 
 Pipeline::Pipeline() : _running(false) {}
@@ -12,14 +13,24 @@ Pipeline::~Pipeline() {
 	for (auto block: _blocks) {
 		delete block;
 	}
+
+	for (auto queue: _queues) {
+		delete queue;
+	}
 }
 
 void Pipeline::init() {
 	info("Initialising the Pipeline...");
 
+	Queue *q1 = new Queue(1024);
+	Queue *q2 = new Queue(1024);
+
+	addQueue(q1);
+	addQueue(q2);
+
 	DataGenerationBlock *dataBlock = new DataGenerationBlock();
 	FilteringBlock *filterBlock = new FilteringBlock();
-	LabellingBlock *labellingBlock = new LabellingBlock();
+	LabellingBlock *labellingBlock = new LabellingBlock(q1, q2);
 
 	addBlock(dataBlock);
 	addBlock(filterBlock);
@@ -41,21 +52,25 @@ void Pipeline::addBlock(IProcessBlock *block) {
 	return;
 }
 
+void Pipeline::addQueue(Queue *queue) {
+	_queues.push_back(queue);
+	return;
+}
+
 void Pipeline::start() {
-	_running = true;
+	_running.store(true, std::memory_order_release);
 	for (IProcessBlock *block: _blocks) {
 		_threads.emplace_back(&Pipeline::execute, this, block);
 	}
 
 #ifdef _DEBUG
-	std::this_thread::sleep_for(std::chrono::milliseconds(100));
 #else
 	debug("_RELEASE mode Placeholder: Add Release logic here.");
 #endif
 }
 
 void Pipeline::execute(IProcessBlock *block) {
-	while (_running.load(std::memory_order_relaxed)) {
+	while (_running.load(std::memory_order_acquire)) {
 		block->execute();
 	}
 }
