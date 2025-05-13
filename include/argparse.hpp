@@ -3,17 +3,9 @@
 
 #include <fstream>
 #include <iostream>
-#include <sstream>
 #include <string>
 
 #include "include/debug-manager.hpp"
-#include "include/debug.hpp"
-
-enum DebugLevels {
-	kDebugQuant = 1,
-	kDebugLog,
-	kDebugThread,
-};
 
 const DebugChannel debugFlagList[] = {
 	{kDebugQuant, "quant", "Quantisation debug output"},
@@ -64,21 +56,6 @@ bool readConfig(
 
 		weights[i] = value;
 	}
-
-	info("CSV Path       : %s", csvPath.c_str());
-	info("Threshold      : %d", static_cast<int>(threshold));
-	info("Time           : %u ms", time);
-	info("No. of Columns : %zu", ncolumns);
-
-    std::ostringstream oss;
-    oss << "Weights        : [";
-    for (int i = 0; i < 9; ++i) {
-        oss << weights[i];
-        if (i + 1 < 9)
-            oss << ", ";
-    }
-    oss << "]";
-    info("%s", oss.str().c_str());
 
 	return true;
 }

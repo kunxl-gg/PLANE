@@ -5,6 +5,12 @@
 #include <string>
 #include <unordered_map>
 
+enum DebugLevels {
+	kDebugQuant = 1,
+	kDebugLog,
+	kDebugThread,
+};
+
 struct DebugChannel {
 	DebugChannel() : _channel(0) {}
 	DebugChannel(uint32_t c, std::string name, std::string desc)
