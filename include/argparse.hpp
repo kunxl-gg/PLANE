@@ -6,6 +6,7 @@
 #include <string>
 
 #include "include/debug-manager.hpp"
+#include "include/pipeline.hpp"
 
 const DebugChannel debugFlagList[] = {
 	{kDebugQuant, "quant", "Quantisation debug output"},
@@ -16,7 +17,7 @@ const DebugChannel debugFlagList[] = {
 bool readConfig(
 		std::string filename,
 		std::string &csvPath,
-		unsigned &threshold,
+		byte &threshold,
 		float weights[],
 		unsigned &time,
 		unsigned &ncolumns

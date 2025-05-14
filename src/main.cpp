@@ -9,7 +9,7 @@ int main(int argv, const char *argc[]) {
 	std::string csvPath;
 	unsigned numColumns = 0;
 	unsigned time = 0;
-	unsigned threshold = 0;
+	byte threshold = 0;
 
 	// Read Config file.
 	if (!readConfig("config.txt", csvPath, threshold, weights, time, numColumns))

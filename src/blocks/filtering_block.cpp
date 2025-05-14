@@ -1,54 +1,72 @@
 #include <cstdint>
-#include <fstream>
-#include <iostream>
 #include <thread>
 
 #include "include/filtering_block.hpp"
+#include "include/debug-manager.hpp"
 #include "include/debug.hpp"
 #include "include/ring_buffer.hpp"
 
-FilteringBlock::FilteringBlock(byte threshold, float weights[9], RingBuffer &buffer) {
-	_inputBuffer = &buffer;
-	_threshold = threshold;
+FilteringBlock::FilteringBlock(byte threshold, const float weights[9],
+		Queue *inputQueue, Queue *outputQueue) :
+	_threshold(threshold),
+	_inputQueue(inputQueue),
+	_outputQueue(outputQueue) {
 
-	for (int i = 0; i < 9; i++)
-		_weights[i] = weights[i];
-
+	std::copy(weights, weights + 9, _weights);
 #ifdef _DEBUG_LOG
 	std::cout << _inputBuffer << ": [FilteringBlock] buffer \n";
 #endif
 }
 
-std::pair<uint8_t, uint8_t> FilteringBlock::applyFilter() {
-	float a = 0; float b = 0;
+std::pair<PixelData, PixelData> FilteringBlock::applyFilter() {
+	float weightedSumA = 0; float weightedSumB = 0;
+	uint32_t rowA = 0; uint32_t colA = 0;
+	uint32_t rowB = 0; uint32_t colB = 0;
 
-	for (size_t i = 0; i + 1 < 9; i++) {
-		a += _weights[i] * _inputBuffer->at(i);
-		b += _weights[i + 1] * _inputBuffer->at(i + 1);
-	}
+	for (size_t i = 0; i + 1 < 10; i++) {
+		weightedSumA += _weights[i] * _inputQueue->at(i)._val;
+		weightedSumB += _weights[i + 1] * _inputQueue->at(i + 1)._val;
 
-	return std::make_pair(a, b);
-}
+		if (i == 4) {
+			rowA = _inputQueue->at(i)._row;
+			rowB = _inputQueue->at(i + 1)._row;
 
-void FilteringBlock::flush() {
-	std::fstream file("output.txt");
-	if (!file.is_open()) {
-		std::cerr << "Error opening file" << std::endl;
-		return;
-	}
-
-	for (size_t i = 0; i < _outputBuffer.size(); i += 10) {
-		for (int j = 0; j < 10; j++) {
-			if (i + j >= _outputBuffer.size()) break;
-			unsigned value = _outputBuffer[i + j] >= _threshold ? 1 : 0;
-			file << value << " ";
+			colA = _inputQueue->at(i)._col;
+			colB = _inputQueue->at(i + 1)._col;
 		}
-		file << "\n";
 	}
 
-	file.close();
+	weightedSumA = weightedSumA < _threshold ? 0 : 1;
+	weightedSumB = weightedSumB < _threshold ? 0 : 1;
+
+	PixelData pixelA = PixelData(rowA, colA, weightedSumA);
+	PixelData pixelB = PixelData(rowB, colB, weightedSumB);
+	return std::make_pair(pixelA, pixelB);
 }
 
 void FilteringBlock::execute() {
-	debug("[FilteringBlock] Running on Thread ID: %d", std::this_thread::get_id());
+	debugC(9, kDebugThread, "[FilteringBlock] Running on Thread ID: %d", std::this_thread::get_id());
+
+	auto start = std::chrono::high_resolution_clock::now();
+
+	uint32_t head = _inputQueue->head();
+	uint32_t tail = _inputQueue->tail();
+
+	if (tail - head + 1 < 9)
+		return;
+
+	auto result = applyFilter();
+	_outputQueue->enqueue(result.first);
+	_outputQueue->enqueue(result.second);
+
+	_inputQueue->try_dequeue();
+	_inputQueue->try_dequeue();
+
+	auto end = std::chrono::high_resolution_clock::now();
+	auto elapsed = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
+
+	// Ensure execution time is at least 500 ns
+	if (elapsed.count() < 500) {
+		std::this_thread::sleep_for(std::chrono::nanoseconds(500 - elapsed.count()));
+	}
 }

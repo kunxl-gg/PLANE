@@ -11,20 +11,16 @@ using byte = unsigned char;
 
 class FilteringBlock : public IProcessBlock {
 public:
-	FilteringBlock() = default;
-	FilteringBlock(byte threshold, float weights[9], RingBuffer &buffer);
+	FilteringBlock(byte threshold, const float weights[9], Queue *inputQueue, Queue *outputQueue);
 	virtual ~FilteringBlock() = default;
 
 	void flush();
-	std::pair<byte, byte> applyFilter();
+	std::pair<PixelData, PixelData> applyFilter();
 
 	void execute() override;
 private:
 	byte _threshold;
 	float _weights[9];
-
-	RingBuffer *_inputBuffer;
-	std::vector<uint8_t> _outputBuffer;
 
 	Queue *_inputQueue;
 	Queue *_outputQueue;

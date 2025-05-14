@@ -6,28 +6,28 @@
 
 #include "include/iprocess_block.hpp"
 #include "include/lock_free_queue.hpp"
-#include "include/ring_buffer.hpp"
 
 using byte = unsigned char;
 
 class DataGenerationBlock : public IProcessBlock {
 public:
 	DataGenerationBlock() = default;
-	DataGenerationBlock(std::string csvPath, RingBuffer &buffer, Queue *inputQueue, Queue *outputQueue);
+	DataGenerationBlock(std::string csvPath, Queue *inputQueue, Queue *outputQueue, unsigned numColumns);
 	virtual ~DataGenerationBlock() = default;
 
 	bool hasMoreData();
-	std::pair<byte, byte> readCSV();
-	std::pair<byte, byte> generateRandomNumbers();
+	std::pair<PixelData, PixelData> readCSV();
+	std::pair<PixelData, PixelData> generateRandomNumbers();
 
 	void execute() override;
 private:
-	std::ifstream _file;
 	std::string _csvPath;
+	std::ifstream _file;
 
-	RingBuffer *_buffer;
 	Queue *_inputQueue;
 	Queue *_outputQueue;
+
+	unsigned int _numColumns;
 };
 
 #endif // DATA_GENERATION_BLOCK_H

@@ -9,6 +9,8 @@
 #include "include/iprocess_block.hpp"
 #include "include/lock_free_queue.hpp"
 
+using byte = unsigned char;
+
 class PipelineConfig {
 public:
 	unsigned int _time;
@@ -18,18 +20,18 @@ public:
 	unsigned int _numColumns;
 
 	// Filtering Block
-	float _weights[10];
-	unsigned int _threshold;
+	byte _threshold;
+	float _weights[9];
 
 	PipelineConfig(unsigned time, std::string csvPath, unsigned numColumns,
-			float weights[10], unsigned threshold)
+			float weights[9], byte threshold)
 		: _time(time), _csvPath(std::move(csvPath)), _numColumns(numColumns), _threshold(threshold) {
 			std::copy(weights, weights + 10, _weights);
 		}
 
 	void print() {
 		info("CSV Path       : %s", _csvPath.c_str());
-		info("Threshold      : %ud", _threshold);
+		info("Threshold      : %u", _threshold);
 		info("Time           : %u ms", _time);
 		info("No. of Columns : %zu", _numColumns);
 
@@ -45,8 +47,6 @@ public:
 
 	}
 };
-
-using byte = unsigned char;
 
 class Pipeline {
 public:

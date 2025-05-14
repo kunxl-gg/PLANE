@@ -19,22 +19,31 @@ Pipeline::~Pipeline() {
 	}
 }
 
-void Pipeline::init() {
+void Pipeline::init(const PipelineConfig &config) {
 	info("Initialising the Pipeline...");
 
-	Queue *q1 = new Queue(1024);
-	Queue *q2 = new Queue(1024);
+	Queue *rawDataQueue = new Queue(1024);
+	Queue *filteredDataQueue = new Queue(1024);
 
-	addQueue(q1);
-	addQueue(q2);
+	addQueue(rawDataQueue);
+	addQueue(filteredDataQueue);
 
-	DataGenerationBlock *dataBlock = new DataGenerationBlock();
-	FilteringBlock *filterBlock = new FilteringBlock();
-	LabellingBlock *labellingBlock = new LabellingBlock(q1, q2);
+	DataGenerationBlock *dataBlock = new DataGenerationBlock(
+		config._csvPath,
+		nullptr,
+		rawDataQueue,
+		config._numColumns
+	);
+
+	FilteringBlock *filteringBlock = new FilteringBlock(
+		config._threshold,
+		config._weights,
+		rawDataQueue,
+		filteredDataQueue
+	);
 
 	addBlock(dataBlock);
-	addBlock(filterBlock);
-	addBlock(labellingBlock);
+	addBlock(filteringBlock);
 }
 
 void Pipeline::stop() {

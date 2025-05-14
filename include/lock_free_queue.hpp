@@ -35,6 +35,18 @@ public:
 	LockFreeQueue(const LockFreeQueue&) = delete;
 	LockFreeQueue& operator=(const LockFreeQueue&) = delete;
 
+	size_t head() {
+		return _head.load(std::memory_order_acquire);
+	}
+
+	size_t tail() {
+		return _tail.load(std::memory_order_acquire);
+	}
+
+	T at(size_t index) {
+		return _buffer[index];
+	}
+
 	bool enqueue(const T& item) noexcept {
 		return enqueueImpl(item);
 	}
@@ -43,7 +55,7 @@ public:
 		return enqueueImpl(std::move(item));
 	}
 
-	bool try_dequeue(T& out) noexcept {
+	bool try_dequeue() noexcept {
 		size_t head = _head.load(std::memory_order_relaxed);
 		size_t tail = _tail.load(std::memory_order_acquire);
 
@@ -51,8 +63,6 @@ public:
 
 		size_t index = normalise(head);
 		T* ptr = &_buffer[index];
-		out = std::move(*ptr);
-
 		ptr->~T();
 
 		_head.store(head + 1, std::memory_order_release);
