@@ -4,6 +4,7 @@
 #include "include/debug.hpp"
 #include "include/filtering_block.hpp"
 #include "include/labelling_block.hpp"
+#include "include/tracing_block.hpp"
 #include "include/lock_free_queue.hpp"
 #include "include/pipeline.hpp"
 
@@ -24,9 +25,11 @@ void Pipeline::init(const PipelineConfig &config) {
 
 	Queue *rawDataQueue = new Queue(1024);
 	Queue *filteredDataQueue = new Queue(1024);
+	Queue *labelledDataQueue = new Queue(1024);
 
 	addQueue(rawDataQueue);
 	addQueue(filteredDataQueue);
+	addQueue(labelledDataQueue);
 
 	DataGenerationBlock *dataBlock = new DataGenerationBlock(
 		config._csvPath,
@@ -42,8 +45,15 @@ void Pipeline::init(const PipelineConfig &config) {
 		filteredDataQueue
 	);
 
+	LabellingBlock *labellingBlock = new LabellingBlock(
+		filteredDataQueue,
+		labelledDataQueue,
+		config._numColumns
+	);
+
 	addBlock(dataBlock);
 	addBlock(filteringBlock);
+	addBlock(labellingBlock);
 }
 
 void Pipeline::stop() {
@@ -66,13 +76,15 @@ void Pipeline::addQueue(Queue *queue) {
 	return;
 }
 
-void Pipeline::start() {
+void Pipeline::start(unsigned time) {
 	_running.store(true, std::memory_order_release);
 	for (IProcessBlock *block: _blocks) {
 		_threads.emplace_back(&Pipeline::execute, this, block);
 	}
 
 #ifdef _DEBUG
+	// Keep this thread alive for `time` milliseconds
+	std::this_thread::sleep_for(std::chrono::milliseconds(time));
 #else
 	debug("_RELEASE mode Placeholder: Add Release logic here.");
 #endif

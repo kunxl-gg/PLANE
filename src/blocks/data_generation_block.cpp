@@ -57,11 +57,10 @@ std::pair<PixelData, PixelData> DataGenerationBlock::generateRandomNumbers() {
 }
 
 void DataGenerationBlock::execute() {
+	auto start = std::chrono::high_resolution_clock::now();
 	debugC(9, kDebugThread, "[DataGenerationBlock] Running on Thread ID: %d", std::this_thread::get_id());
 
 	std::pair<PixelData, PixelData> pair;
-
-	auto start = std::chrono::high_resolution_clock::now();
 
 #ifndef _DEBUG
 	pair = readCSV();

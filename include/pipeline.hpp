@@ -54,7 +54,7 @@ public:
 	~Pipeline();
 
 	void init(const PipelineConfig &config);
-	void start();
+	void start(unsigned time);
 	void stop();
 	bool should_run();
 

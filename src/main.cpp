@@ -31,12 +31,12 @@ int main(int argv, const char *argc[]) {
 #ifdef _DEBUG
 	info("Running in _DEBUG mode");
 	pipeline.init(config);
-	pipeline.start();
+	pipeline.start(time);
 	pipeline.stop();
 #else
 	info("Running in _RELEASE mode");
 	pipeline.init(config);
-	pipeline.start();
+	pipeline.start(time);
 	pipeline.stop();
 #endif
 
